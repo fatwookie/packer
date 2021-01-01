@@ -1,0 +1,7 @@
+packer_cache
+*.deb
+*.bundle
+output*/*
+*.tmp
+*.vmdk
+*.ovf

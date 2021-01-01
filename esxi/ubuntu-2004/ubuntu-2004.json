@@ -1,0 +1,55 @@
+{
+    "builders": [
+      {
+        "type": "vmware-iso",
+
+        "name": "ubuntu-2004",
+        "guest_os_type": "ubuntu-64",
+        "tools_upload_flavor": "linux",
+        "headless": false,
+  
+        "iso_url": "http://releases.ubuntu.com/focal/ubuntu-20.04.1-live-server-amd64.iso",
+        "iso_checksum": "sha256:443511f6bf12402c12503733059269a2e10dec602916c0a75263e5d990f6bb93",
+        
+        "ssh_username": "ubuntu",
+        "ssh_password": "ubuntu",
+        "ssh_timeout": "30m",
+        "ssh_handshake_attempts": "100",
+  
+        "http_directory": "http",
+  
+        "memory": 1024,
+  
+        "boot_wait": "5s",
+        "boot_command": [
+        "<enter><enter><f6><esc><wait> ",
+        "autoinstall ip=dhcp ipv6.disable=1 ds=nocloud-net;s=https://raw.githubusercontent.com/fatwookie/packer/main/esxi/ubuntu-2004/",
+          "<enter><wait>"
+        ],
+
+        "shutdown_command": "sudo /sbin/shutdown -hP now",
+  
+        "remote_type": "esx5",
+        "remote_host": "{{user `esxi_host`}}",
+        "remote_datastore": "{{user `esxi_datastore`}}",
+        "remote_username": "{{user `esxi_username`}}",
+        "remote_password": "{{user `esxi_password`}}",
+        "keep_registered": true,
+  
+        "vnc_over_websocket": true,
+        "insecure_connection": true,
+    
+        "vmx_data": {
+          "ethernet0.networkName": "bodenstab.loc_vlan101"
+        }
+      }
+    ],
+  
+    "provisioners": [
+      {
+        "type": "shell",
+        "inline": ["ls /"]
+      }
+    ]
+  }
+  
