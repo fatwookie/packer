@@ -27,6 +27,7 @@
           "<enter><wait>"
         ],
 
+        "skip_export": true,
         "shutdown_command": "sudo /sbin/shutdown -hP now",
   
         "remote_type": "esx5",
