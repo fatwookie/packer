@@ -3,7 +3,7 @@
       {
         "type": "vmware-iso",
 
-        "name": "k8s-2004",
+        "name": "{{user `vm_name`}}",
         "guest_os_type": "ubuntu-64",
         "tools_upload_flavor": "linux",
         "headless": false,
