@@ -1,8 +1,7 @@
 {
     "esxi_host": "esxi.bodenstab.loc",
     "esxi_datastore": "satahdd_ds",
-    "esxi_username": "{{env `HV_USER`}}",
-    "esxi_password": "{{env `HV_PASS`}}",
-    "name": "{{env `VM_NAME`}}"
-
+    "esxi_username": "{{ env `HV_USER`}}",
+    "esxi_password": "{{ env `HV_PASS`}}",
+    "vm_name": "{{ env `VM_NAME`}}"
 }
