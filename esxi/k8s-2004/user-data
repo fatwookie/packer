@@ -51,7 +51,7 @@ autoinstall:
     install-server: true
     allow-pw: true
   identity:
-    hostname: ubuntu-00
+    hostname: "{{user `vmname`}}"
     password: "$6$Wvx1OBt65TQmugYf$J0TUfgmlDX8btESPwyE9cHjMUn.fF/SpNHELDd7mzM22C9EYyRdJ7P9PYL8oUNquJNPJ.h8HtG26QCgV.Tv4C/" # r00tme
     username: ubuntu # root doesn't work
   package_update: true
