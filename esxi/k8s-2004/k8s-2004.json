@@ -3,7 +3,7 @@
       {
         "type": "vmware-iso",
 
-        "name": "{{user `vm_name`}}",
+        "name": "{{user `vmname`}}",
         "guest_os_type": "ubuntu-64",
         "tools_upload_flavor": "linux",
         "headless": false,

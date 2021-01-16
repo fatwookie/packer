@@ -100,10 +100,10 @@ packer build -var-file=esxi/esxi-variables.json esxi/ubuntu-2004/ubuntu-2004.jso
 Or when building k8s nodes:
 
 ```
-VM_NAME="k8s-vm1" packer validate -var-file=esxi/esxi-variables.json esxi/k8s-2004/k8s-2004.json
+VMNAME="k8s-vm1" packer validate -var-file=esxi/esxi-variables.json esxi/k8s-2004/k8s-2004.json
 ```
 
 Build the VM:
 ```
-VM_NAME="k8s-vm1" packer build -var-file=esxi/esxi-variables.json esxi/k8s-2004/k8s-2004.json
+VMNAME="k8s-vm1" packer build -var-file=esxi/esxi-variables.json esxi/k8s-2004/k8s-2004.json
 ```

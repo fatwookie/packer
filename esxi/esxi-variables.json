@@ -3,5 +3,5 @@
     "esxi_datastore": "satahdd_ds",
     "esxi_username": "{{ env `HV_USER`}}",
     "esxi_password": "{{ env `HV_PASS`}}",
-    "vm_name": "{{ env `VM_NAME`}}"
+    "vmname": "{{ env `VMNAME`}}"
 }
