@@ -9,8 +9,6 @@ autoinstall:
   version: 1
   early-commands:
     - systemctl stop ssh # otherwise packer tries to connect and exceed max attempts
-  locale:
-    - en_US.UTF-8
   apt:
     primary:
         - arches: [default]
@@ -26,19 +24,19 @@ autoinstall:
         dhcp4: true
         dhcp-identifier: mac
         dhcp6: false
-  ssh:
-    install-server: true
-    allow-pw: true
   storage:
     layout:
       name: lvm
+  ssh:
+    install-server: true
+    allow-pw: true
   identity:
     hostname: ubuntu-00
     password: "$6$Wvx1OBt65TQmugYf$J0TUfgmlDX8btESPwyE9cHjMUn.fF/SpNHELDd7mzM22C9EYyRdJ7P9PYL8oUNquJNPJ.h8HtG26QCgV.Tv4C/" # r00tme
     username: ubuntu # root doesn't work
   package_update: true
   package_upgrade: true
-    packages:
+  packages:
     - open-vm-tools
     - pwgen
     - curl

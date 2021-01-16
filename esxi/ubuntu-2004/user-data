@@ -9,8 +9,6 @@ autoinstall:
   version: 1
   early-commands:
     - systemctl stop ssh # otherwise packer tries to connect and exceed max attempts
-  locale:
-    - en_US.UTF-8
   apt:
     primary:
         - arches: [default]
