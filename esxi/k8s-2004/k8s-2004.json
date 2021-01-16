@@ -4,9 +4,16 @@
         "type": "vmware-iso",
 
         "name": "{{user `vmname`}}",
-        "guest_os_type": "ubuntu-64",
+        "vm_name": "{{user `vmname`}}",
         "tools_upload_flavor": "linux",
         "headless": false,
+        
+        "guest_os_type": "ubuntu-64",
+        "cpus": 1,
+        "cores": 2,
+        "sound": false,
+        "memory": 4096,
+        "disk_size": 40000,
   
         "iso_url": "http://releases.ubuntu.com/focal/ubuntu-20.04.1-live-server-amd64.iso",
         "iso_checksum": "sha256:443511f6bf12402c12503733059269a2e10dec602916c0a75263e5d990f6bb93",
@@ -17,9 +24,7 @@
         "ssh_handshake_attempts": "100",
   
         "http_directory": "http",
-  
-        "memory": 1024,
-  
+
         "boot_wait": "5s",
         "boot_command": [
         "<enter><enter><f6><esc><wait> ",
