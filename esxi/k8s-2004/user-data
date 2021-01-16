@@ -30,8 +30,6 @@ autoinstall:
     install-server: true
     allow-pw: true
   storage:
-    swap:
-      size: 0
     layout:
       name: lvm
   identity:
