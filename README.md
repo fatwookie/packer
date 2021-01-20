@@ -109,3 +109,8 @@ Build the VM:
 ```
 VMNAME="k8s-vm1" packer build -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004.json
 ```
+
+This concludes the Packer phase. Move on to Ansible.
+
+# Make sure all prerequisites are set
+
