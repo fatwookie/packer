@@ -1,6 +1,6 @@
 {
-    "esxi_host": "nuc.bodenstab.loc",
-    "esxi_datastore": "nvme_ds",
+    "esxi_host": "{{ env `ESXI_HOST`}}",
+    "esxi_datastore": "{{ env `ESXI_DS`}}",
     "esxi_username": "{{ env `HV_USER`}}",
     "esxi_password": "{{ env `HV_PASS`}}",
     "vmname": "{{ env `VMNAME`}}"

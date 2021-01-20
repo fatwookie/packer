@@ -82,6 +82,8 @@ sudo sh ./VMware-ovftool-4.4.1-16812187-lin.x86_64.bundle --eulas-agreed --requi
 Set the credentials used to login to the ESXi server:
 
 ```
+export ESXI_HOST="your.esxi.host"
+export ESXI_DS="datastore1"
 export HV_USER="your_esxi_admin"
 export HV_PASS="SuperMegaStrongPassword"
 ```
@@ -89,21 +91,21 @@ export HV_PASS="SuperMegaStrongPassword"
 Check the config:
 
 ```
-packer validate -var-file=esxi/esxi-variables.json esxi/ubuntu-2004/ubuntu-2004.json
+packer validate -var-file=packer-esxi/esxi-variables.json packer-esxi/ubuntu-2004/ubuntu-2004.json
 ```
 
 Build the VM:
 ```
-packer build -var-file=esxi/esxi-variables.json esxi/ubuntu-2004/ubuntu-2004.json
+packer build -var-file=packer-esxi/esxi-variables.json packer-esxi/ubuntu-2004/ubuntu-2004.json
 ```
 
 Or when building k8s nodes:
 
 ```
-VMNAME="k8s-vm1" packer validate -var-file=esxi/esxi-variables.json esxi/k8s-2004/k8s-2004.json
+VMNAME="k8s-vm1" packer validate -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004.json
 ```
 
 Build the VM:
 ```
-VMNAME="k8s-vm1" packer build -var-file=esxi/esxi-variables.json esxi/k8s-2004/k8s-2004.json
+VMNAME="k8s-vm1" packer build -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004.json
 ```
