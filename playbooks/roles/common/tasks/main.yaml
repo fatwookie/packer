@@ -21,19 +21,11 @@
 
 - name: make sure baseline packages are installed
   apt: 
-    name: "{{ item }}"
+    name: "['fish', 'htop','python3','vim','multitail','tmux','unattended-upgrades']"
     state: latest
     # state: latest
     update_cache: true
   when: ansible_os_family == "Ubuntu"
-  with_items:
-    - 'fish'
-    - 'htop'
-    - 'python3'
-    - 'vim'
-    - 'multitail'
-    - 'tmux'
-    - 'unattended-upgrades'
 
 - name: Copy over the local hosts configuration
   copy: 
@@ -47,7 +39,5 @@
     reload: true
   # state: "{{ item.state | default('present') }}"
   with_items:
-    - { name: 'net.ipv6.conf.all.disable_ipv6', value: '1' }          # dump it on k8s
-    - { name: 'net.ipv6.conf.default.disable_ipv6', value: '1' }      # dump it on k8s
     - { name: 'net.ipv4.ip_forward', value: '1' }                     # needed for k8s
     - { name: 'vm.max_map_count', value: '262144 ' }                  # needed for ES

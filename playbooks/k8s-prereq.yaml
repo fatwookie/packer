@@ -1,12 +1,12 @@
 ---
-- hosts: master
+- hosts: k8smasters
   become: yes
   become_method: sudo
   roles:
   - common
   - k8smaster
 
-- hosts: nodes
+- hosts: k8snodes
   become: yes
   become_method: sudo
   roles:

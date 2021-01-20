@@ -114,3 +114,9 @@ This concludes the Packer phase. Move on to Ansible.
 
 # Make sure all prerequisites are set
 
+On the host from which you will deploy Kubespray, install prerequisites:
+
+```
+sudo apt install ansible sshpass -y
+```
+
