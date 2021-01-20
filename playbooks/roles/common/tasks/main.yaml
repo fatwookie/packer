@@ -1,0 +1,53 @@
+---
+- name: Install NTP
+  apt: package=ntp state=present update_cache=yes
+  tags: ntp
+
+- name: Copy over the NTP configuration
+  template: 
+    src: templates/ntp-client.conf.j2 
+    dest: /etc/ntp.conf
+  notify:
+    - restart ntp
+  tags: ntp
+
+- name: Make sure NTP is started up
+  service: name=ntp state=started enabled=yes
+  tags: ntp
+
+- name: install system updates for ubuntu systems
+  apt: upgrade=dist update_cache=yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: make sure baseline packages are installed
+  apt: 
+    name: "{{ item }}"
+    state: latest
+    # state: latest
+    update_cache: true
+  when: ansible_os_family == "Ubuntu"
+  with_items:
+    - 'fish'
+    - 'htop'
+    - 'python3'
+    - 'vim'
+    - 'multitail'
+    - 'tmux'
+    - 'unattended-upgrades'
+
+- name: Copy over the local hosts configuration
+  copy: 
+    src: files/hosts
+    dest: /etc/hosts
+
+- name: Setup sysctl stuff
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    reload: true
+  # state: "{{ item.state | default('present') }}"
+  with_items:
+    - { name: 'net.ipv6.conf.all.disable_ipv6', value: '1' }          # dump it on k8s
+    - { name: 'net.ipv6.conf.default.disable_ipv6', value: '1' }      # dump it on k8s
+    - { name: 'net.ipv4.ip_forward', value: '1' }                     # needed for k8s
+    - { name: 'vm.max_map_count', value: '262144 ' }                  # needed for ES

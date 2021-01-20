@@ -1,0 +1,5 @@
+127.0.0.1       localhost           localhost.localdomain
+10.100.1.211    k8s-master1         k8s-master1.bodenstab.loc
+10.100.1.212    k8s-master2         k8s-master2.bodenstab.loc
+10.100.1.213    k8s-node1           k8s-node1.bodenstab.loc
+10.100.1.214    k8s-node2           k8s-node2.bodenstab.loc
