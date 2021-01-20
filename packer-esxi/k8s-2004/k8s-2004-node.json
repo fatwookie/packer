@@ -28,7 +28,7 @@
         "boot_wait": "5s",
         "boot_command": [
         "<enter><enter><f6><esc><wait> ",
-        "autoinstall ip=dhcp ipv6.disable=1 ds=nocloud-net;s=https://raw.githubusercontent.com/fatwookie/packer/main/esxi/k8s-2004/",
+        "autoinstall ip=dhcp ipv6.disable=1 ds=nocloud-net;s=https://raw.githubusercontent.com/fatwookie/packer/main/packer-esxi/k8s-2004/",
           "<enter><wait>"
         ],
 
