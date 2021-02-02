@@ -120,6 +120,14 @@ On the host from which you will deploy Kubespray, install prerequisites:
 sudo apt install ansible sshpass -y
 ```
 
+And deploy the Ansible playbooks to the freshly created hosts.
+
+```
+cd playbooks
+ansible-playbook -i inventory/k8s.yaml -u ubuntu -k --become-method sudo k8s-prereq.yaml
+```
+
+
 # Deploy Kubernetes with kubespray
 
 Our vm's are now preped enough to be turned into the nodes of a Kubernetes cluster. This guide
