@@ -131,4 +131,13 @@ ansible-playbook -i playbooks/inventory/k8s.yaml -u ubuntu -k --become-method su
 # Deploy Kubernetes with kubespray
 
 Our vm's are now preped enough to be turned into the nodes of a Kubernetes cluster. This guide
-assumes the usage of [Kubespray](https://github.com/kubernetes-sigs/kubespray).
+assumes the usage of [Kubespray](https://github.com/kubernetes-sigs/kubespray). 
+
+Note: in this case we don't execute the `pip3 install -r requirements.txt` because the
+`apt install ansible` command has already been executed and this sets up the Ansible
+environment.
+
+```
+git clone git@github.com:kubernetes-sigs/kubespray.git
+cd kubespray
+```
