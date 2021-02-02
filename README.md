@@ -123,8 +123,8 @@ sudo apt install ansible sshpass -y
 And deploy the Ansible playbooks to the freshly created hosts.
 
 ```
-cd playbooks
-ansible-playbook -i inventory/k8s.yaml -u ubuntu -k --become-method sudo k8s-prereq.yaml
+export ANSIBLE_HOST_KEY_CHECKING=False
+ansible-playbook -i playbooks/inventory/k8s.yaml -u ubuntu -k --become-method sudo playbooks/k8s-prereq.yaml
 ```
 
 

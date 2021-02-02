@@ -4,11 +4,9 @@
   become_method: sudo
   roles:
   - common
-  - k8smaster
 
 - hosts: k8snodes
   become: yes
   become_method: sudo
   roles:
   - common
-  - k8snode
