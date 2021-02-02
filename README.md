@@ -120,3 +120,7 @@ On the host from which you will deploy Kubespray, install prerequisites:
 sudo apt install ansible sshpass -y
 ```
 
+# Deploy Kubernetes with kubespray
+
+Our vm's are now preped enough to be turned into the nodes of a Kubernetes cluster. This guide
+assumes the usage of [Kubespray|https://github.com/kubernetes-sigs/kubespray]
