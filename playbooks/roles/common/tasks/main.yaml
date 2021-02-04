@@ -37,6 +37,12 @@
     src: files/hosts
     dest: /etc/hosts
 
+- name: Change the root password
+  user:
+    name: root
+    update_password: always
+    password: "$6$TZgFZKNNehcOL8mP$ahe2kQiA9hmhWq1xEHq0NPstG1gOjzV.Xdjm2o3IhkWfxwpIAamyHH5S7CUZ9Bf6NNpVz0CHoV/wxfDQotrxU0" # r00tme
+
 - name: Setup sysctl stuff
   sysctl:
     name: "{{ item.name }}"

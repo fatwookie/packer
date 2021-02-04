@@ -117,7 +117,8 @@ This concludes the Packer phase. Move on to Ansible.
 On the host from which you will deploy Kubespray, install prerequisites:
 
 ```
-sudo apt install ansible sshpass -y
+sudo apt install python3 python3-pip sshpass -y
+pip3 install -r requirements.txt
 ```
 
 And deploy the Ansible playbooks to the freshly created hosts.
@@ -133,11 +134,19 @@ ansible-playbook -i playbooks/inventory/k8s.yaml -u ubuntu -k --become-method su
 Our vm's are now preped enough to be turned into the nodes of a Kubernetes cluster. This guide
 assumes the usage of [Kubespray](https://github.com/kubernetes-sigs/kubespray). 
 
-Note: in this case we don't execute the `pip3 install -r requirements.txt` because the
-`apt install ansible` command has already been executed and this sets up the Ansible
+Note: in this case we don't execute the `pip3 install -r requirements.txt` because this command has already been executed and this sets up the Ansible
 environment.
 
 ```
+sudo curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl && sudo chmod +x /usr/local/bin/kubectl
+
 git clone git@github.com:kubernetes-sigs/kubespray.git
 cd kubespray
+cp -rfp inventory/sample inventory/k8s-cluster
+
+CONFIG_FILE=inventory/k8s-cluster/hosts.yml python3 contrib/inventory_builder/inventory.py \
+     k8s-master1,10.100.1.211 k8s-master2,10.100.1.212 k8s-node1,10.100.1.213 k8s-node2,10.100.1.214
+
+ansible-playbook -i inventory/k8s-cluster/hosts.yml -u ubuntu -b -k -K -v --become-method sudo cluster.yml
+
 ```
