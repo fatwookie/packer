@@ -102,12 +102,14 @@ packer build -var-file=packer-esxi/esxi-variables.json packer-esxi/ubuntu-2004/u
 Or when building k8s nodes:
 
 ```
-VMNAME="k8s-vm1" packer validate -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004.json
+VMNAME="k8s-master1" packer validate -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004-master.json
+VMNAME="k8s-node1" packer validate -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004-node.json
 ```
 
 Build the VM:
 ```
-VMNAME="k8s-vm1" packer build -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004.json
+VMNAME="k8s-master1" packer build -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004-master.json
+VMNAME="k8s-node1" packer build -var-file=packer-esxi/esxi-variables.json packer-esxi/k8s-2004/k8s-2004-node.json
 ```
 
 This concludes the Packer phase. Move on to Ansible.
@@ -125,7 +127,7 @@ And deploy the Ansible playbooks to the freshly created hosts.
 
 ```
 export ANSIBLE_HOST_KEY_CHECKING=False
-ansible-playbook -i playbooks/inventory/k8s.yaml -u ubuntu -k --become-method sudo playbooks/k8s-prereq.yaml
+ansible-playbook -i playbooks/inventory/k8s.yaml -u ubuntu -b -k -K --become-method sudo playbooks/k8s-prereq.yaml
 ```
 
 
@@ -138,8 +140,6 @@ Note: in this case we don't execute the `pip3 install -r requirements.txt` becau
 environment.
 
 ```
-sudo curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl && sudo chmod +x /usr/local/bin/kubectl
-
 git clone git@github.com:kubernetes-sigs/kubespray.git
 cd kubespray
 cp -rfp inventory/sample inventory/k8s-cluster
@@ -148,5 +148,28 @@ CONFIG_FILE=inventory/k8s-cluster/hosts.yml python3 contrib/inventory_builder/in
      k8s-master1,10.100.1.211 k8s-master2,10.100.1.212 k8s-node1,10.100.1.213 k8s-node2,10.100.1.214
 
 ansible-playbook -i inventory/k8s-cluster/hosts.yml -u ubuntu -b -k -K -v --become-method sudo cluster.yml
+
+```
+
+## Install the API client
+
+```
+mkdir -p ~/.kube/
+
+sudo curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl && sudo chmod +x /usr/local/bin/kubectl
+
+scp root@k8s-master1:/etc/kubernetes/admin.conf ~/.kube/config
+
+```
+
+Give the playbook a few moments to finish. When finished (this could take up to 25 minutes). When finished, execute the following:
+
+```
+$ kubectl get nodes
+NAME          STATUS   ROLES                  AGE   VERSION
+k8s-master1   Ready    control-plane,master   48m   v1.20.2
+k8s-master2   Ready    control-plane,master   47m   v1.20.2
+k8s-node1     Ready    <none>                 46m   v1.20.2
+k8s-node2     Ready    <none>                 46m   v1.20.2
 
 ```
