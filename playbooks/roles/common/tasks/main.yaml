@@ -43,6 +43,13 @@
     update_password: always
     password: "$6$TZgFZKNNehcOL8mP$ahe2kQiA9hmhWq1xEHq0NPstG1gOjzV.Xdjm2o3IhkWfxwpIAamyHH5S7CUZ9Bf6NNpVz0CHoV/wxfDQotrxU0" # r00tme
 
+- name: Allow root SSH access
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^#PermitRootLogin prohibit-password"
+              line="PermitRootLogin yes"
+              state=present
+  notify: Restart ssh
+
 - name: Setup sysctl stuff
   sysctl:
     name: "{{ item.name }}"
