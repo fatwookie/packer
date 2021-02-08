@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: TestApp-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: api
+  template:
+    metadata:
+      labels:
+        component: api
+  spec:
+    containers:
+      - name: debian
+        image: debian
+        ports:
+          - containerPort: 22
+            name: ssh
+            protocol: TCP
