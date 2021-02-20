@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: container-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: container-iscsi
+  template:
+    metadata:
+      labels:
+        component: container-iscsi
+    spec:
+      volumes:
+        - name: iscsi-pv
+          persistentVolumeClaim:
+            claimName: iscsi-pvc
+      containers:
+        - name: container-iscsi
+          image: debian
+          stdin: true
+          tty: true
+          command: ["/bin/bash"]
+          volumeMounts:
+            - name: iscsi-pv
+              mountPath: /mnt
+
