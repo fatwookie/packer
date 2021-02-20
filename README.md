@@ -173,3 +173,10 @@ k8s-node1     Ready    <none>                 46m   v1.20.2
 k8s-node2     Ready    <none>                 46m   v1.20.2
 
 ```
+
+## Useful tips
+
+* https://k8slens.dev/
+* https://www.redhat.com/sysadmin/kubespray-deploy-kubernetes
+* https://medium.com/better-programming/kubernetes-tips-ha-cluster-with-kubespray-69e5bb2fa444
+* https://levelup.gitconnected.com/installing-kubernetes-with-kubespray-on-nipa-cloud-a4fbeefb47ff
