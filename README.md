@@ -197,7 +197,7 @@ vim kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/k8s-cluster.yml
 
 ```
 CONFIG_FILE=inventory/k8s-cluster/hosts.yml python3 contrib/inventory_builder/inventory.py \
-     k8s-master1,10.100.1.211 k8s-master2,10.100.1.212 k8s-node1,10.100.1.213 k8s-node2,10.100.1.214
+     k8s-master1,10.100.1.211 k8s-node1,10.100.1.213 k8s-node2,10.100.1.214
 ```
 
 ## Deploy the playbook
