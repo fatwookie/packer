@@ -3,7 +3,7 @@ ansible_python_interpreter=/usr/bin/python3
 
 [k8smasters]
 k8s-master1.bodenstab.loc
-k8s-master2.bodenstab.loc
+# k8s-master2.bodenstab.loc
 
 [k8snodes]
 k8s-node1.bodenstab.loc
