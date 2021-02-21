@@ -136,6 +136,7 @@ ansible-playbook -i playbooks/inventory/k8s.yaml -u ubuntu -b -k -K --become-met
 Our vm's are now preped enough to be turned into the nodes of a Kubernetes cluster. This guide
 assumes the usage of [Kubespray](https://github.com/kubernetes-sigs/kubespray). 
 
+## Set up the inventory
 Note: in this case we don't execute the `pip3 install -r requirements.txt` because this command has already been executed and this sets up the Ansible
 environment.
 
@@ -143,12 +144,68 @@ environment.
 git clone git@github.com:kubernetes-sigs/kubespray.git
 cd kubespray
 cp -rfp inventory/sample inventory/k8s-cluster
+```
 
+## Tweak some stuff for useability and manageability
+
+We need some tweaks to the default playbook:
+
+* enable the `kube_read_only_port` so the `metrics-server` will work
+* enable the Kubernetes dashboard (`dashboard_enabled: true`)
+* enable Helm deployments (`helm_enabled: true`)
+* enable the `metrics-server` (`metrics_server_enabled: true`)
+* enable NGINX ingress controller (`ingress_nginx_enabled: true`)
+* enable the Certificate Manager (`cert_manager_enabled: true`)
+
+```
+sed -i 's/# kube_read_only_port/kube_read_only_port/' \
+    kubespray/inventory/k8s-cluster/group_vars/all/all.yml
+
+sed -i 's/# dashboard_enabled: false/dashboard_enabled: true/' \
+    kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
+
+sed -i 's/helm_enabled: false/helm_enabled: true/' \
+    kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
+
+sed -i 's/metrics_server_enabled: false/metrics_server_enabled: true/' \
+    kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
+
+sed -i 's/ingress_nginx_enabled: false/ingress_nginx_enabled: true/' \
+    kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
+
+sed -i 's/cert_manager_enabled: false/cert_manager_enabled: true/' \
+    kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
+
+sed -i 's/# cert_manager_namespace:/cert_manager_namespace:/' \
+    kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
+
+```
+
+Doublecheck the IP ranges used for services and pods. This should be unused IPv4 or IPv6 space:
+
+```
+grep kube_service_addresses -r
+```
+
+Check all other settings are OK:
+
+```
+vim kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/k8s-cluster.yml
+```
+
+## Build the inventory
+
+```
 CONFIG_FILE=inventory/k8s-cluster/hosts.yml python3 contrib/inventory_builder/inventory.py \
      k8s-master1,10.100.1.211 k8s-master2,10.100.1.212 k8s-node1,10.100.1.213 k8s-node2,10.100.1.214
+```
 
+## Deploy the playbook
+
+Deploy the Kubespray playbooks to create the K8S cluster:
+
+```
 ansible-playbook -i inventory/k8s-cluster/hosts.yml -u ubuntu -b -k -K -v --become-method sudo cluster.yml
-
 ```
 
 ## Install the API client
