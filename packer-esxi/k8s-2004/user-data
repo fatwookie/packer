@@ -67,6 +67,7 @@ autoinstall:
     - python3
     - jq
     - ansible
+    - sshpass
   late-commands:
     - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
     - 'sed -i "s/^#*\(send dhcp-client-identifier\).*$/\1 = hardware;/" /target/etc/dhcp/dhclient.conf'

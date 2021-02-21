@@ -173,10 +173,10 @@ sed -i 's/metrics_server_enabled: false/metrics_server_enabled: true/' \
 sed -i 's/ingress_nginx_enabled: false/ingress_nginx_enabled: true/' \
     kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
 
-sed -i 's/cert_manager_enabled: false/cert_manager_enabled: true/' \
+sed -i 's/cert_manager_enabled: true/cert_manager_enabled: false/' \
     kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
 
-sed -i 's/# cert_manager_namespace:/cert_manager_namespace:/' \
+sed -i 's/cert_manager_namespace:/# cert_manager_namespace:/' \
     kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/addons.yml
 
 ```
@@ -225,6 +225,7 @@ EOF
 ## Build the inventory
 
 ```
+cd kubespray
 CONFIG_FILE=inventory/k8s-cluster/hosts.yml python3 contrib/inventory_builder/inventory.py \
      k8s-master1,10.100.1.211 k8s-node1,10.100.1.213 k8s-node2,10.100.1.214
 ```
