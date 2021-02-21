@@ -26,7 +26,7 @@
 
 - name: make sure baseline packages are installed
   apt: 
-    name: "['fish', 'htop','python3','vim','multitail','tmux','unattended-upgrades']"
+    name: "['fish', 'htop','python3','vim','multitail','tmux','unattended-upgrades','sshpass']"
     state: latest
     # state: latest
     update_cache: true

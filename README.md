@@ -193,6 +193,35 @@ Check all other settings are OK:
 vim kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/k8s-cluster.yml
 ```
 
+## Change the default container runtime to CRI-O
+
+See also the `docs/cri-o.md` in the Kubespray repo.
+
+```
+sed -i 's/# download_container: true/download_container: false/' \
+    kubespray/inventory/k8s-cluster/group_vars/all/all.yml
+
+echo "skip_downloads: false" >> \
+    kubespray/inventory/k8s-cluster/group_vars/all/all.yml
+
+sed -i 's/container_manager: docker/container_manager: crio/' \
+    kubespray/inventory/k8s-cluster/group_vars/k8s-cluster/k8s-cluster.yml
+
+sed -i 's/etcd_deployment_type: docker/etcd_deployment_type: host/' \
+    kubespray/inventory/k8s-cluster/group_vars/etcd.yml
+
+cat << EOF > kubespray/inventory/k8s-cluster/group_vars/all/crio.yaml
+crio_registries_mirrors:
+  - prefix: docker.io
+    insecure: false
+    blocked: false
+    location: registry-1.docker.io
+    mirrors:
+      - location: mirror.gcr.io
+        insecure: false
+EOF
+```
+
 ## Build the inventory
 
 ```
