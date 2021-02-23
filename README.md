@@ -267,3 +267,8 @@ k8s-node2     Ready    <none>                 46m   v1.20.2
 * https://www.redhat.com/sysadmin/kubespray-deploy-kubernetes
 * https://medium.com/better-programming/kubernetes-tips-ha-cluster-with-kubespray-69e5bb2fa444
 * https://levelup.gitconnected.com/installing-kubernetes-with-kubespray-on-nipa-cloud-a4fbeefb47ff
+
+# Deploying ECK
+
+To deploy the Elasticsearch Cloud for Kubernetes, you should first apply the controller. When this is 
+finished, you can deploy the instances.
