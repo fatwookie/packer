@@ -5,4 +5,5 @@ output*/*
 *.tmp
 *.vmdk
 *.ovf
+*.swp
 kubespray
