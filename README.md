@@ -270,9 +270,10 @@ k8s-node2     Ready    <none>                 46m   v1.20.2
 
 # Deploying ECK
 
-To deploy the Elasticsearch, first install ECK (Elastic Cloud for Kubernetes, you should first apply the controller. When this is 
-finished, you can deploy the instances.
+To deploy the Elasticsearch, first install ECK (Elastic Cloud for Kubernetes, you should first 
+apply the controller. When this is finished, you can deploy the instances.
 
 ```
 kubectl apply -f https://download.elastic.co/downloads/eck/1.4.0/all-in-one.yaml
+kubectl -n elastic-system logs -f statefulset.apps/elastic-operator
 ```
