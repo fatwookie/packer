@@ -30,7 +30,7 @@ spec:
           env:
           - name: ES_JAVA_OPTS
             value: "-Xms2g -Xmx2g"
-    count: 2
+    count: 1
     # request 10Gi of persistent data storage for pods in this topology element
     volumeClaimTemplates:
     - metadata:
@@ -38,7 +38,7 @@ spec:
       spec:
         accessModes:
         - ReadWriteOnce
-        storageClassName: standard
+        storageClassName: espv-local
         resources:
           requests:
             storage: 20Gi

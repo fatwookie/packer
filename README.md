@@ -238,6 +238,17 @@ Deploy the Kubespray playbooks to create the K8S cluster:
 ansible-playbook -i inventory/k8s-cluster/hosts.yml -u ubuntu -b -k -K -v --become-method sudo cluster.yml
 ```
 
+## Using secure registries
+
+To use secure registries, make sure the `global_auth_file` setting in `/etc/crio/crio.conf` is pointing to the
+right `config.json`. The latter can be generated using a `docker login` command. For example:
+
+```
+global_auth_file = "/etc/crio/config.json"
+```
+
+TODO: find out how to automate using Kubespray.
+
 ## Install the API client
 
 ```
@@ -277,3 +288,20 @@ apply the controller. When this is finished, you can deploy the instances.
 kubectl apply -f https://download.elastic.co/downloads/eck/1.4.0/all-in-one.yaml
 kubectl -n elastic-system logs -f statefulset.apps/elastic-operator
 ```
+
+Create the PV. The local filesystem must exist on the nodes (/data/es)
+
+```
+kubectl apply -f elastic-pv.yaml
+```
+
+Create the cluster:
+
+```
+kubectl apply -f elastic-711.yaml
+kubectl get elasticsearch
+kubectl get pods
+```
+
+
+

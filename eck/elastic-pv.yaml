@@ -8,8 +8,8 @@ spec:
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
-  storageClassName: standard
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: espv-local
   local:
     path: /data/es
   nodeAffinity:
@@ -19,6 +19,5 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - k8s-master1
           - k8s-node1
           - k8s-node2
