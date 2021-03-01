@@ -362,7 +362,17 @@ $ curl -k -u "elastic:$PASSWORD" https://localhost:9200
   "tagline" : "You Know, for Search"
 }
 
+```
 
+# Deploy Kibana
+
+Now, to deploy Kibana:
+
+```
+kubectl apply -f elastic-kibana.yaml
+kubectl get kibana
+kubectl get pod
+kubectl get service
 ```
 
 
