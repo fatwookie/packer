@@ -303,5 +303,66 @@ kubectl get elasticsearch
 kubectl get pods
 ```
 
+ES Cluster state should be green. Now get the services:
+
+```
+$ kubectl get service
+NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+elasticsearch-es-default     ClusterIP      None            <none>        9200/TCP         23h
+elasticsearch-es-http        LoadBalancer   10.233.43.167   <pending>     9200:32487/TCP   23h
+elasticsearch-es-transport   ClusterIP      None            <none>        9300/TCP         23h
+kubernetes                   ClusterIP      10.233.0.1      <none>        443/TCP          8d
+```
+
+The automatically created superuser (`elastic`) secret can be pulled using:
+
+```
+$ PASSWORD=$(kubectl get secret elasticsearch-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')
+$ curl -k -u "elastic:$PASSWORD" https://k8s-node1:32487
+{
+  "name" : "elasticsearch-es-default-0",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "l4RZjpdvThSHGjjHVh5RzQ",
+  "version" : {
+    "number" : "7.11.1",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "ff17057114c2199c9c1bbecc727003a907c0db7a",
+    "build_date" : "2021-02-15T13:44:09.394032Z",
+    "build_snapshot" : false,
+    "lucene_version" : "8.7.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
+  },
+  "tagline" : "You Know, for Search"
+}
+
+```
+
+Or, use the `kubectl port-forward` command for port-forwarding:
+
+```
+$ kubectl port-forward service/elasticsearch-es-http 9200
+$ curl -k -u "elastic:$PASSWORD" https://localhost:9200
+{
+  "name" : "elasticsearch-es-default-0",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "l4RZjpdvThSHGjjHVh5RzQ",
+  "version" : {
+    "number" : "7.11.1",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "ff17057114c2199c9c1bbecc727003a907c0db7a",
+    "build_date" : "2021-02-15T13:44:09.394032Z",
+    "build_snapshot" : false,
+    "lucene_version" : "8.7.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
+  },
+  "tagline" : "You Know, for Search"
+}
+
+
+```
 
 
