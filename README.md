@@ -375,4 +375,41 @@ kubectl get pod
 kubectl get service
 ```
 
+To access the Kibana web interface, you can use the mapped `LoadBalancer` service port or you can use
+a port-forwarder.
+
+```
+kubectl port-forward service/elasticsearch-kb-http 5601
+```
+
+The fire up a browser to https://localhost:5601
+
+
+# Deploy a loadbalancer
+
+## Installation
+
+This example assumes the usage of the Metal-LB loadbalancer. You can also use keepalived. To install 
+Metal-LB, make sure `strictARP` is set to `true` in the `kube-proxy` config.
+
+Execute `kubectl edit configmap -n kube-system kube-proxy` and make sure the config is set accordingly:
+
+```
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+mode: "ipvs"
+ipvs:
+  strictARP: true
+```
+
+To install MetalLB, install the manifest:
+
+```
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+# On first install only
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+```
+
+## Configuration
 
