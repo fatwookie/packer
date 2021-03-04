@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: vlan100
+      protocol: layer2
+      addresses:
+      - 10.100.1.210-10.100.1.210

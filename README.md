@@ -413,3 +413,44 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 
 ## Configuration
 
+Define the IP pool used on the respective network:
+
+```
+kubectl apply -f metallb-vip.yaml
+```
+
+The specified address should now be pingable:
+
+```
+$ kubectl describe configmap config -n metallb-system
+Name:         config
+Namespace:    metallb-system
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+config:
+----
+address-pools:
+- name: vlan100
+  protocol: layer2
+  addresses:
+  - 10.100.1.210-10.100.1.210
+
+Events:  <none>
+```
+
+```
+$ ping 10.100.1.210
+PING 10.100.1.210 (10.100.1.210) 56(84) bytes of data.
+64 bytes from 10.100.1.210: icmp_seq=1 ttl=64 time=0.717 ms
+64 bytes from 10.100.1.210: icmp_seq=2 ttl=64 time=0.408 ms
+^C
+--- 10.100.1.210 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 6ms
+rtt min/avg/max/mdev = 0.408/0.562/0.717/0.156 ms
+vincent@dev: eck$
+```
+
+
