@@ -471,3 +471,45 @@ Unfortunately, platinum licenses won't work on a ECK cluster. This means we need
 ```
 kubectl apply -f elastic-trial.yaml
 ```
+
+# Authentication using an AD
+
+To enable Active Directory authentication, we need the following prerequisites:
+
+* trial license or enterpise license installed
+* the ECK spec deployment file must define a new `active_directory` realm:
+```
+  nodeSets: 
+  - name: default
+    config:
+      node.master: true
+      node.data: true
+      node.ingest: true
+      node.ml: true
+      xpack.security.authc.realms:
+        native:
+          native1:
+            order: 1
+            enabled: true
+        active_directory:
+          active_dir1:
+            order: 2
+            enabled: true
+            domain_name: ad.bodenstab.loc
+            url: ldaps://adc1.ad.bodenstab.loc:3269
+            ssl:
+              verification_mode: none
+```
+* a role mapping must be defined:
+
+```
+curl -u "elastic:$PASSWORD" -k -X PUT "https://localhost:9200/_security/role_mapping/superuser?pretty" -H 'Content-Type: application/json' -d'
+{
+  "roles" : [ "superuser" ],
+  "rules" : { "field" : {
+    "groups" : "CN=ESAdmins,CN=Users,DC=ad,DC=bodenstab,DC=loc" 
+  } },
+  "enabled": true
+}
+'
+```
