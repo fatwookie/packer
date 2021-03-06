@@ -12,6 +12,19 @@ spec:
       node.data: true
       node.ingest: true
       node.ml: true
+      xpack.security.authc.realms:
+        native:
+          native1: 
+            order: 1
+            enabled: true
+        active_directory:
+          active_dir1:
+            order: 2
+            enabled: true
+            domain_name: ad.bodenstab.loc
+            url: ldaps://adc1.ad.bodenstab.loc:3269
+            ssl:
+              verification_mode: none
     podTemplate:
       metadata:
         labels:

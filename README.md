@@ -453,4 +453,21 @@ rtt min/avg/max/mdev = 0.408/0.562/0.717/0.156 ms
 vincent@dev: eck$
 ```
 
+The Kibana instance we created earlier, should now be available:
 
+```
+$ kubectl get service elasticsearch-kb-http
+NAME                    TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)          AGE
+elasticsearch-kb-http   LoadBalancer   10.233.31.55   10.100.1.210   5601:30390/TCP   2d19h
+```
+
+You can now browse to https://10.100.1.210:5601
+
+
+## Start a trial
+
+Unfortunately, platinum licenses won't work on a ECK cluster. This means we need to use a trial.
+
+```
+kubectl apply -f elastic-trial.yaml
+```
