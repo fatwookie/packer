@@ -500,7 +500,7 @@ To enable Active Directory authentication, we need the following prerequisites:
             ssl:
               verification_mode: none
 ```
-* a role mapping must be defined:
+* a role mapping must be defined for the `superuser` default role:
 
 ```
 curl -u "elastic:$PASSWORD" -k -X PUT "https://localhost:9200/_security/role_mapping/superuser?pretty" -H 'Content-Type: application/json' -d'
