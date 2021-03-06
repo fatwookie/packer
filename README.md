@@ -516,18 +516,53 @@ curl -u "elastic:$PASSWORD" -k -X PUT "https://localhost:9200/_security/role_map
 For regular users, we first need to create a generic user role using the API.
 
 ```
+
 curl -u "elastic:$PASSWORD" -k -X PUT "https://localhost:9200/_security/role/esuser?pretty" -H 'Content-Type: application/json' -d'
 {
   "cluster": ["manage_ilm", "manage_index_templates", "manage_ilm", "manage_ml",
-              "manage_watcher", "monitor", "manage", "monitor_ml", "monitor_watcher"],
+              "manage_watcher", "monitor", "manage", "monitor_ml", "monitor_watcher", "cluster:monitor/main", 
+              "cluster:monitor/xpack/info", "cluster:monitor/remote/info"],
   "indices": [
     {
       "names": [ "*" ],
       "privileges": ["delete", "manage_ilm", "monitor", "read", "view_index_metadata",
                      "write"]
     }
-  ]
+  ],
+  "applications": [
+      {
+        "application": "kibana-.kibana",
+        "privileges": [
+          "all"
+        ],
+        "resources": [
+          "*"
+        ]
+      }
+    ]
   }
 }
 '
 ```
+
+Next, we newly created role will be mapped to an Active Directory security group.
+
+```
+curl -X PUT "localhost:9200/_security/role_mapping/basic_users?pretty" -H 'Content-Type: application/json' -d'
+{  "roles" : [ "esuser" ],
+  "rules" : { "field" : {
+    "groups" : "CN=ESUsers,CN=Users,DC=ad,DC=bodenstab,DC=loc" 
+  } },
+  "enabled": true
+}
+'
+```
+
+curl -k -u "elastic:$PASSWORD" -X PUT "https://localhost:9200/_security/role_mapping/esuser?pretty" -H 'Content-Type: application/json' -d'
+{  "roles" : [ "esuser" ],
+  "rules" : { "field" : {
+    "groups" : "CN=ESUsers,CN=Users,DC=ad,DC=bodenstab,DC=loc" 
+  } },
+  "enabled": true
+}
+'
