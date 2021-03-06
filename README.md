@@ -513,3 +513,21 @@ curl -u "elastic:$PASSWORD" -k -X PUT "https://localhost:9200/_security/role_map
 }
 '
 ```
+For regular users, we first need to create a generic user role using the API.
+
+```
+curl -u "elastic:$PASSWORD" -k -X PUT "https://localhost:9200/_security/role/esuser?pretty" -H 'Content-Type: application/json' -d'
+{
+  "cluster": ["manage_ilm", "manage_index_templates", "manage_ilm", "manage_ml",
+              "manage_watcher", "monitor", "manage", "monitor_ml", "monitor_watcher"],
+  "indices": [
+    {
+      "names": [ "*" ],
+      "privileges": ["delete", "manage_ilm", "monitor", "read", "view_index_metadata",
+                     "write"]
+    }
+  ]
+  }
+}
+'
+```
