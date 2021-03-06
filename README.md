@@ -513,7 +513,7 @@ curl -u "elastic:$PASSWORD" -k -X PUT "https://localhost:9200/_security/role_map
 }
 '
 ```
-For regular users, we first need to create a generic user role using the API.
+For regular users, we first need to create a generic user role `esuser` using the API.
 
 ```
 
@@ -548,7 +548,7 @@ curl -u "elastic:$PASSWORD" -k -X PUT "https://localhost:9200/_security/role/esu
 Next, we newly created role will be mapped to an Active Directory security group.
 
 ```
-curl -X PUT "localhost:9200/_security/role_mapping/basic_users?pretty" -H 'Content-Type: application/json' -d'
+curl -k -u "elastic:$PASSWORD" -X PUT "https://localhost:9200/_security/role_mapping/esuser?pretty" -H 'Content-Type: application/json' -d'
 {  "roles" : [ "esuser" ],
   "rules" : { "field" : {
     "groups" : "CN=ESUsers,CN=Users,DC=ad,DC=bodenstab,DC=loc" 
@@ -558,11 +558,3 @@ curl -X PUT "localhost:9200/_security/role_mapping/basic_users?pretty" -H 'Conte
 '
 ```
 
-curl -k -u "elastic:$PASSWORD" -X PUT "https://localhost:9200/_security/role_mapping/esuser?pretty" -H 'Content-Type: application/json' -d'
-{  "roles" : [ "esuser" ],
-  "rules" : { "field" : {
-    "groups" : "CN=ESUsers,CN=Users,DC=ad,DC=bodenstab,DC=loc" 
-  } },
-  "enabled": true
-}
-'
