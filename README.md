@@ -549,7 +549,8 @@ Next, we newly created role will be mapped to an Active Directory security group
 
 ```
 curl -k -u "elastic:$PASSWORD" -X PUT "https://localhost:9200/_security/role_mapping/esuser?pretty" -H 'Content-Type: application/json' -d'
-{  "roles" : [ "esuser" ],
+{ 
+  "roles" : [ "esuser" ],
   "rules" : { "field" : {
     "groups" : "CN=ESUsers,CN=Users,DC=ad,DC=bodenstab,DC=loc" 
   } },
@@ -557,4 +558,45 @@ curl -k -u "elastic:$PASSWORD" -X PUT "https://localhost:9200/_security/role_map
 }
 '
 ```
+
+# Logstash on Kubernetes
+
+This cluster currently only runs Elasticsearch and Kibana. To be able
+to ingest data into the cluster, we need Logstash (or similar).
+
+## Authentication and Authorization of Logstash
+
+First we need a new user and role which allow logstash to push data to
+Elasticsearch.
+
+```
+curl -k -u "elastic:$PASSWORD" -X POST "https://localhost:9200/_xpack/security/role/logstash_writer" -H 'Content-Type: application/json' -d'
+{
+  "cluster": ["manage_index_templates", "monitor", "manage_ilm"], 
+  "indices": [
+    {
+      "names": [ "*" ], 
+      "privileges": ["write","create","create_index","manage","manage_ilm"]  
+    }
+  ]
+}
+
+
+curl -k -u "elastic:$PASSWORD" -X POST "https://localhost:9200/_xpack/security/user/logstash_internal" -H 'Content-Type: application/json' -d'
+{
+  "password" : "x-pack-test-password",
+  "roles" : [ "logstash_writer"],
+  "full_name" : "Internal Logstash User"
+}
+
+```
+
+## Customize the pipeline
+
+
+
+
+## Building the Docker image
+
+
 

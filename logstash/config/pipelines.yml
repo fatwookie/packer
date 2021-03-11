@@ -1,0 +1,5 @@
+- pipeline.id: ingress_pipeline
+  path.config: "/usr/share/logstash/pipeline/ingress_pipeline.conf"
+  queue.type: persisted
+- pipeline.id: elasticsearch_pipeline
+  path.config: "/usr/share/logstash/pipeline/elasticoutput.pipeline"
