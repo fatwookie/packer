@@ -1,5 +1,11 @@
 - pipeline.id: ingress_pipeline
   path.config: "/usr/share/logstash/pipeline/01-ingress_pipeline.conf"
   queue.type: persisted
+- pipeline.id: syslog_pipeline
+  path.config: "/usr/share/logstash/pipeline/10-syslog_pipeline.conf"
+- pipeline.id: beats_pipeline
+  path.config: "/usr/share/logstash/pipeline/15-beats_pipeline.conf"
+- pipeline.id: default_pipeline
+  path.config: "/usr/share/logstash/pipeline/90-default_pipeline.conf"
 - pipeline.id: elasticsearch_pipeline
   path.config: "/usr/share/logstash/pipeline/99-elasticsearch_pipeline.conf"
