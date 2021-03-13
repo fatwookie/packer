@@ -71,10 +71,10 @@ There is no need to open special ports. VNC is multiplexed over the regular tcp/
 
 ---
 
-4. Install OVFtool from the VMware website on your local workstation. Download from the [following URL](https://code.vmware.com/web/tool/4.4.0/ovf)
+4. Install OVFtool on your local workstation. Download from the [following URL](https://code.vmware.com/web/tool/4.4.1/ovf) or use the supplied `ovftool` in the repo.
 
 ```
-sudo sh ./VMware-ovftool-4.4.1-16812187-lin.x86_64.bundle --eulas-agreed --required --console
+sudo sh ./ovftool/VMware-ovftool-4.4.1-16812187-lin.x86_64.bundle --eulas-agreed --required --console
 ```
 
 ## Build a packer config
