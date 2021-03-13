@@ -3,4 +3,3 @@ xpack.monitoring.elasticsearch.hosts:
    - https://elasticsearch-es-default-0:9200
 xpack.monitoring.elasticsearch.password: xxxx
 xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.ssl.certificate_authority: /usr/share/logstash/config/certs/ca/elastic-stack-ca.pem
