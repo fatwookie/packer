@@ -579,7 +579,7 @@ curl -k -u "elastic:$PASSWORD" -X POST "https://localhost:9200/_xpack/security/r
       "privileges": ["write","create","create_index","manage","manage_ilm"]  
     }
   ]
-}
+}'
 
 
 curl -k -u "elastic:$PASSWORD" -X POST "https://localhost:9200/_xpack/security/user/logstash_internal" -H 'Content-Type: application/json' -d'
@@ -587,7 +587,7 @@ curl -k -u "elastic:$PASSWORD" -X POST "https://localhost:9200/_xpack/security/u
   "password" : "x-pack-test-password",
   "roles" : [ "logstash_writer"],
   "full_name" : "Internal Logstash User"
-}
+}'
 
 ```
 
